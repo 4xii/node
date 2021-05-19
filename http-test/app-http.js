@@ -2,7 +2,7 @@
  * Author: 朱世新
  * Date: 2021-05-16 23:48:49
  * LastEditors: 朱世新
- * LastEditTime: 2021-05-17 13:54:39
+ * LastEditTime: 2021-05-18 00:02:42
  * Description: 
 */
 // const http = require('http');
@@ -30,16 +30,16 @@
 
 /* node.js处理post请求 */
 const http = require('http')
-const server = http.createServer((req,res)=>{
-  if(req.method === 'POST'){
+const server = http.createServer((req, res) => {
+  if (req.method === 'POST') {
     //数据格式
-    console.log('content-type',req.headers['content-type']);
+    console.log('content-type', req.headers['content-type']);
     //接收数据
     let postData = ""
-    req.on('data',chunk => {
+    req.on('data', chunk => {
       postData += chunk.toString()
     })
-    req.on('end',()=>{
+    req.on('end', () => {
       console.log(postData);
       res.end('hello World') // 在这里返回，因为是异步
     })
