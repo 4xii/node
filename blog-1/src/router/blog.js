@@ -2,17 +2,22 @@
  * Author: 朱世新
  * Date: 2021-05-17 23:50:46
  * LastEditors: 朱世新
- * LastEditTime: 2021-05-18 00:20:57
+ * LastEditTime: 2021-05-20 23:35:40
  * Description: 
 */
+const { getList } = require('../controller/blog')
+const { SuccessModel, ErrorModel } = require('../model/resModel')
+
 const handleBlogRouter = (req, res) => {
   const method = req.method // GET POST
-
+  const url = req.url
+  req.path = url.split('?')[0]
   //获取博客列表
-  if (method === 'GET' && res.path === '/api/blog/list') {
-    return {
-      msg: '这是获取博客列表的接口'
-    }
+  if (method === 'GET' && req.path === '/api/blog/list') {
+    const author = req.query.author || ''
+    const keyword = req.query.keyword || ''
+    const listData = getList(author, keyword)
+    return new SuccessModel(listData)
   }
 
   //获取博客详情

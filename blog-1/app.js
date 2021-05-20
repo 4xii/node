@@ -2,12 +2,13 @@
  * Author: 朱世新
  * Date: 2021-05-17 17:39:01
  * LastEditors: 朱世新
- * LastEditTime: 2021-05-18 00:20:31
+ * LastEditTime: 2021-05-20 22:19:41
  * Description: 
 */
+const querystring = require('querystring')
 const handleBlogRouter = require('./src/router/blog')
 const handleUserRouter = require('./src/router/user')
-const hanleUserRouter = require('./src/router/user')
+
 const serverHandle = (req, res) => {
   //设置返回格式 JSON 
   res.setHeader('Content-type', 'application/json')
@@ -15,7 +16,9 @@ const serverHandle = (req, res) => {
   //获取path
   const url = req.url
   req.path = url.split('?')[0]
-
+  //解析query
+  req.query = querystring.parse(url.split('?')[0])
+  
   //处理blog路由
   const blogData = handleBlogRouter(req, res)
   if (blogData) {
@@ -33,9 +36,9 @@ const serverHandle = (req, res) => {
     )
     return
   }
-
-  // 未命中路由，返回404
-  res.writeHead(404,{"Content-type":"text/plain"})
+  
+  //未命中路由，返回404
+  res.writeHead(404, { "Content-type": "text/plain" })
   res.write("404 Not Found\n")
   res.end()
 }
