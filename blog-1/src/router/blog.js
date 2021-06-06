@@ -2,7 +2,7 @@
  * Author: 朱世新
  * Date: 2021-05-17 23:50:46
  * LastEditors: 朱世新
- * LastEditTime: 2021-06-04 07:02:35
+ * LastEditTime: 2021-06-06 22:35:08
  * Description: 
 */
 const { getList,getDetail,newBlog,updataBlog,delBlog } = require('../controller/blog')
@@ -17,8 +17,13 @@ const handleBlogRouter = (req, res) => {
   if (method === 'GET' && req.path === '/api/blog/list') {
     const author = req.query.author || ''
     const keyword = req.query.keyword || ''
-    const listData = getList(author, keyword)
-    return new SuccessModel(listData)
+    // const listData = getList(author, keyword)
+    // return new SuccessModel(listData)
+    console.log(author,keyword);
+    const result = getList(author,keyword)
+    return result.then(listData => {
+      return new SuccessModel(listData)
+    })
   }
 
   //获取博客详情

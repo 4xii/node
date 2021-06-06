@@ -2,27 +2,21 @@
  * Author: 朱世新
  * Date: 2021-05-20 17:44:22
  * LastEditors: 朱世新
- * LastEditTime: 2021-06-04 07:01:09
+ * LastEditTime: 2021-06-06 22:57:28
  * Description: 
 */
+const { exec } = require('../db/mysql')
 const getList = (author, keyword) => {
-  //先返回假数据(格式是正确的)
-  return [
-    {
-      id: 1,
-      title: '标题A',
-      content: '内容A',
-      createTime: 1621520449056,
-      author: 'zhangsan'
-    },
-    {
-      id: 2,
-      title: '标题B',
-      content: '内容B',
-      createTime: 1621520498817,
-      author: '4xi'
-    }
-  ]
+  let sql = 'select * from blogs where 1=1 '
+  if (author) {
+    sql += `and author='${author}'`
+  }
+  if(keyword){
+    sql += `and title like '%${keyword}%' `
+  }
+  sql += `order by createtime desc;`
+  //返回promise
+  return exec(sql)
 }
 
 const getDetail = (id) => {
@@ -44,10 +38,10 @@ const newBlog = (blogData = {}) => {
   }
 }
 
-const updataBlog = (id,blogData = {}) => {
+const updataBlog = (id, blogData = {}) => {
   // id 就是要更新博客的id
   // blogData 是一个博客对象，包含 title content 属性
-  console.log('updata blog',id,blogData)
+  console.log('updata blog', id, blogData)
   return true
 }
 
