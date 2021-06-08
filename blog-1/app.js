@@ -2,7 +2,7 @@
  * Author: 朱世新
  * Date: 2021-05-17 17:39:01
  * LastEditors: 朱世新
- * LastEditTime: 2021-06-06 23:04:43
+ * LastEditTime: 2021-06-09 00:10:13
  * Description: 
 */
 const querystring = require('querystring')
@@ -71,11 +71,20 @@ const serverHandle = (req, res) => {
     }
 
     //处理user路由
-    const userData = handleUserRouter(req, res)
-    if (userData) {
-      res.end(
-        JSON.stringify(userData)
-      )
+    // const userData = handleUserRouter(req, res)
+    // if (userData) {
+    //   res.end(
+    //     JSON.stringify(userData)
+    //   )
+    //   return
+    // }
+    const userResult = handleUserRouter(req,res)
+    if(userResult){
+      userResult.then(userData => {
+        res.end(
+          JSON.stringify(userData)
+        )
+      })
       return
     }
 

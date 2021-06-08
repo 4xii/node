@@ -4,7 +4,7 @@ const handleBlogRouter = require("./blog")
  * Author: 朱世新
  * Date: 2021-05-17 23:50:54
  * LastEditors: 朱世新
- * LastEditTime: 2021-06-04 07:14:33
+ * LastEditTime: 2021-06-09 00:08:52
  * Description: 
 */
 const { loginCheck } = require('../controller/user')
@@ -17,14 +17,18 @@ const handleUserRouter = (req, res) => {
   if (method === 'POST' && req.path === '/api/user/login') {
     const  {username,password} = req.body
     const result = loginCheck(username,password)
-    if(result){
-      return new SuccessModel()
-    }
-    return new ErrorModel('登录失败')
+    return result.then(data => {
+      if(data.username){
+        return new SuccessModel()
+      }
+      return new ErrorModel('登录失败')
+    })
+
     
-    // return {
-    //   msg: '这是登录的接口'
+    // if(result){
+    //   return new SuccessModel()
     // }
+    // return new ErrorModel('登录失败')
   }
 }
 
