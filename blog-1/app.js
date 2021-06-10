@@ -2,7 +2,7 @@
  * Author: 朱世新
  * Date: 2021-05-17 17:39:01
  * LastEditors: 朱世新
- * LastEditTime: 2021-06-09 00:10:13
+ * LastEditTime: 2021-06-10 23:09:13
  * Description: 
 */
 const querystring = require('querystring')
@@ -48,6 +48,21 @@ const serverHandle = (req, res) => {
   //解析query
   req.query = querystring.parse(url.split('?')[1])
 
+  //解析cookie
+  //解析cookie
+  req.cookie = {}
+  const cookieStr = req.headers.cookie || '' //k1=v1;k2=v2;k3=v3
+  cookieStr.split(';').forEach(item => {
+    if (!item) {
+      return
+    }
+    const arr = item.split('=')
+    const key = arr[0].trim()
+    const val = arr[1].trim()
+    req.cookie[key] = val
+  })
+  console.log('req.cookie is', req.cookie);
+
   //处理 post data
   getPostData(req).then(postData => {
     req.body = postData
@@ -78,8 +93,8 @@ const serverHandle = (req, res) => {
     //   )
     //   return
     // }
-    const userResult = handleUserRouter(req,res)
-    if(userResult){
+    const userResult = handleUserRouter(req, res)
+    if (userResult) {
       userResult.then(userData => {
         res.end(
           JSON.stringify(userData)
