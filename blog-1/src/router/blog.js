@@ -2,12 +2,20 @@
  * Author: 朱世新
  * Date: 2021-05-17 23:50:46
  * LastEditors: 朱世新
- * LastEditTime: 2021-06-08 07:29:13
+ * LastEditTime: 2021-06-14 22:34:19
  * Description: 
 */
 const { getList, getDetail, newBlog, updataBlog, delBlog } = require('../controller/blog')
+const { login } = require('../controller/user')
 const { exec } = require('../db/mysql')
 const { SuccessModel, ErrorModel } = require('../model/resModel')
+
+//统一的登录验证函数
+const loginCheck = (req) => {
+  if (!req.cookie.username) {
+    return Promise.resolve(new ErrorModel('尚未登录'))
+  }
+}
 
 const handleBlogRouter = (req, res) => {
   const id = req.query.id
@@ -41,7 +49,14 @@ const handleBlogRouter = (req, res) => {
   if (method === 'POST' && req.path === '/api/blog/new') {
     // const data = newBlog(req.body)
     // return new SuccessModel(data)
-    req.body.author = 'zhangsan'//假数据，开发登录时再改成真实数据
+
+    const loginCheckResult = loginCheck(req)
+    if (loginCheckResult) {
+      //未登录
+      return loginCheck
+    }
+
+    req.body.author = req.session.username//假数据，开发登录时再改成真实数据
     const result = newBlog(req.body)
     return result.then(data => {
       return new SuccessModel(data)
@@ -51,6 +66,13 @@ const handleBlogRouter = (req, res) => {
 
   //更新一篇博客
   if (method === 'POST' && req.path === '/api/blog/update') {
+
+    const loginCheckResult = loginCheck(req)
+    if (loginCheckResult) {
+      //未登录
+      return loginCheck
+    }
+
     const result = updataBlog(id, req.body)
     return result.then(val => {
       if (val) {
@@ -63,7 +85,13 @@ const handleBlogRouter = (req, res) => {
 
   //删除一篇博客
   if (method === 'POST' && req.path === '/api/blog/del') {
-    const author = 'zhangsan'//假数据，开发登录时再改成真实数据
+    const loginCheckResult = loginCheck(req)
+    if (loginCheckResult) {
+      //未登录
+      return loginCheck
+    }
+
+    const author = req.session.username//假数据，开发登录时再改成真实数据
     const result = delBlog(id, author)
     return result.then(val => {
       if (val) {

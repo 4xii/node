@@ -4,7 +4,7 @@
   "description": "",
   "main": "./bin/www.js",
   "scripts": {
-    "test":"echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "cross-env NODE_ENV=dev nodemon ./bin/www.js",
     "prd": "cross-env NODE_ENV=production nodemon ./bin/www.js"
   },
@@ -15,6 +15,7 @@
     "nodemon": "^2.0.7"
   },
   "dependencies": {
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "redis": "^3.1.2"
   }
 }
