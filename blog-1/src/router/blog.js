@@ -2,7 +2,7 @@
  * Author: 朱世新
  * Date: 2021-05-17 23:50:46
  * LastEditors: 朱世新
- * LastEditTime: 2021-06-14 22:34:19
+ * LastEditTime: 2021-06-17 00:16:09
  * Description: 
 */
 const { getList, getDetail, newBlog, updataBlog, delBlog } = require('../controller/blog')
@@ -24,10 +24,21 @@ const handleBlogRouter = (req, res) => {
   req.path = url.split('?')[0]
   //获取博客列表
   if (method === 'GET' && req.path === '/api/blog/list') {
-    const author = req.query.author || ''
+    let author = req.query.author || ''
     const keyword = req.query.keyword || ''
     // const listData = getList(author, keyword)
     // return new SuccessModel(listData)
+
+    if(req.query.isadmin){
+      //管理员页面
+      const loginCheckResult = loginCheck(req)
+      if(loginCheckResult){
+        //未登录
+        return loginCheckResult
+      }
+      //强制查询自己的博客
+      author = req.session.username
+    }
     console.log(author, keyword);
     const result = getList(author, keyword)
     return result.then(listData => {
