@@ -1,3 +1,10 @@
+/*
+ * Author: 朱世新
+ * Date: 2021-06-21 11:17:49
+ * LastEditors: 朱世新
+ * LastEditTime: 2021-06-22 23:37:25
+ * Description: 
+*/
 /* eslint valid-jsdoc: "off" */
 
 'use strict';
@@ -27,6 +34,16 @@ module.exports = appInfo => {
     defaultViewEngine:'nunjucks'
   }
 
+  config.cors = {
+    origin:"*",
+    allowMethods:'GET,HEAD,PUT,DELETE,PATCH'
+  }
+  
+  config.security = {
+    csrf:{
+      enable:false
+    }
+  }
   return {
     ...config,
     ...userConfig,

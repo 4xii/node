@@ -1,28 +1,59 @@
+<!--
+ * @Author: 朱世新
+ * @Date: 2021-06-21 12:27:36
+ * @LastEditors: 朱世新
+ * @LastEditTime: 2021-06-22 23:47:15
+ * @Description: 
+-->
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <form @submit.prevent="postData">
+      <input type="text" v-model="fruit">
+      <button>添加</button>
+    </form>
+    <ul>
+      <li v-for="(item,index) in fruitList" :key="index">
+        {{item}}
+        <button @click="del(index)">删除</button>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import axios from 'axios'
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  data(){
+    return {
+      fruitList:[],
+      fruit:""
+    }
+  },
+  created(){
+    this.getData()
+  },
+  methods:{
+    getData(){
+      axios.get("http://127.0.0.1:7001/fruits").then((res) => {
+      this.fruitList = res.data
+    })
+    },
+    postData(){
+      axios.post("http://127.0.0.1:7001/fruits",{fruit:this.fruit})
+      .then(() => {
+        this.getData()
+      })
+    },
+    del(id){
+      axios.delete(`http://127.0.0.1:7001/fruits/${id}`)
+      .then(() => {
+        this.getData()
+      })
+    }
   }
+
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
