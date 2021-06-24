@@ -2,7 +2,7 @@
  * Author: 朱世新
  * Date: 2021-06-21 11:17:49
  * LastEditors: 朱世新
- * LastEditTime: 2021-06-22 23:21:07
+ * LastEditTime: 2021-06-24 23:46:17
  * Description: 
 */
 'use strict';
@@ -13,6 +13,7 @@
 module.exports = app => {
   const { router, controller } = app;
   router.get('/', controller.home.index);
-  router.get('/data',controller.home.getData)
-  router.resources("fruits","/fruits",controller.fruits);
+  router.get('/login',controller.home.login)
+  router.post('/login',controller.home.doLogin)
+  router.post('/logout',controller.home.logout)
 };

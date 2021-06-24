@@ -2,7 +2,7 @@
  * Author: 朱世新
  * Date: 2021-06-21 11:17:49
  * LastEditors: 朱世新
- * LastEditTime: 2021-06-22 23:37:25
+ * LastEditTime: 2021-06-24 23:11:59
  * Description: 
 */
 /* eslint valid-jsdoc: "off" */
@@ -35,7 +35,8 @@ module.exports = appInfo => {
   }
 
   config.cors = {
-    origin:"*",
+    origin:"*",//允许所有跨域访问，注释掉啧允许上面 白名单 访问
+    credentials:true,//允许跨域请求携带cookies
     allowMethods:'GET,HEAD,PUT,DELETE,PATCH'
   }
   
