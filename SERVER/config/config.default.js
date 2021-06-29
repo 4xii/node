@@ -2,7 +2,7 @@
  * Author: 朱世新
  * Date: 2021-06-21 11:17:49
  * LastEditors: 朱世新
- * LastEditTime: 2021-06-24 23:11:59
+ * LastEditTime: 2021-06-29 22:53:40
  * Description: 
 */
 /* eslint valid-jsdoc: "off" */
@@ -30,6 +30,10 @@ module.exports = appInfo => {
     // myAppName: 'egg',
   };
 
+  config.jwt = {
+    secret:"4xixuexi"
+  }
+  
   config.view = {
     defaultViewEngine:'nunjucks'
   }
