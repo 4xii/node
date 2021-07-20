@@ -2,7 +2,7 @@
  * Author: 朱世新
  * Date: 2021-06-06 21:21:22
  * LastEditors: 朱世新
- * LastEditTime: 2021-06-06 22:53:23
+ * LastEditTime: 2021-07-18 17:50:31
  * Description: 
 */
 const mysql = require('mysql')
@@ -28,5 +28,6 @@ function exec(sql) {
 }
 
 module.exports = {
-  exec
+  exec,
+  excape : mysql.excape
 }

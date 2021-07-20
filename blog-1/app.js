@@ -2,19 +2,20 @@
  * Author: 朱世新
  * Date: 2021-05-17 17:39:01
  * LastEditors: 朱世新
- * LastEditTime: 2021-06-13 16:07:42
+ * LastEditTime: 2021-07-18 17:16:17
  * Description: 
 */
 const querystring = require('querystring')
+const { access } = require('./src/utils/log')
 const handleBlogRouter = require('./src/router/blog')
 const handleUserRouter = require('./src/router/user')
 
 
 //获取cookie的过期时间
-const getCookieExpires=()=>{
+const getCookieExpires = () => {
   const d = new Date()
-  d.setTime(d.getTime() + (24 * 60 *60 *1000))
-  console.log('d.toGMTString() is',d.toGMTString());
+  d.setTime(d.getTime() + (24 * 60 * 60 * 1000))
+  console.log('d.toGMTString() is', d.toGMTString());
   return d.toGMTString()
 }
 
@@ -50,6 +51,9 @@ const getPostData = (req) => {
 }
 
 const serverHandle = (req, res) => {
+  //记录access log
+  access(`${req.method} -- ${req.url} -- ${req.headers['user-agent']} -- ${Date.now()}`)
+
   //设置返回格式 JSON 
   res.setHeader('Content-type', 'application/json')
 
